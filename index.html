@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>点击支付</div>
+</body>
+</html>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    function getParam(paramName) { 
+        paramValue = "", isFound = !1; 
+        if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) { 
+            arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0; 
+            while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++ 
+        } 
+        return paramValue == "" && (paramValue = null), paramValue 
+    } 
+    console.log({
+                "appId": getParam('appId'),     
+                "timeStamp": getParam('timeStamp'),     
+                "nonceStr": getParam('nonceStr'),   
+                "package": "prepay_id=" + getParam('package'),
+                "signType": getParam('signType'),     
+                "paySign": getParam('paySign')
+            })
+    function onBridgeReady() {
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', {
+                "appId": getParam('appId'),     
+                "timeStamp": getParam('timeStamp'),     
+                "nonceStr": getParam('nonceStr'),   
+                "package": "prepay_id=" + getParam('package'),
+                "signType": getParam('signType'),     
+                "paySign": getParam('paySign')
+            },
+            function (res) {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    // 使用以上方式判断前端返回,微信团队郑重提示：
+                    //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                    alert("get_brand_wcpay_request:ok");
+                } else {
+                    alert(res.err_msg);
+                }
+            });
+    }    
+    onBridgeReady();    
+</script>
+https://zhangtao18317725372.github.io/wxpay/index.html?appId=wx17ea87763491620f&timeStamp=1630075496&nonceStr=Ls7IwRLbU8Wp0v6YRmqNgj5Zz97EJGR2&package=wx27224456790947eace97eebd9c1f340000&signType=MD5&paySign=CA568D3E5109E80B27B54E8D368E9EB3
